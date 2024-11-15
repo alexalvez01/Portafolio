@@ -115,6 +115,7 @@ h2{
 .box:nth-child(4){
     height: 700px;
     border-top: 5px solid #0808084c;
+    padding: 50px 0;
 }
 
 
@@ -278,12 +279,12 @@ h2{
     content: "Sixth page\ATools: React,CSS,Nodejs,Express";
 }
 .information{
-    margin: 100px auto;
     width: 50%;
     height: 500px;
     display: flex;
     flex-direction: column;
     justify-content: start;
+    justify-self: center;
     background-color: rgb(15,24,39,0.8);
     position:relative;
     transform: translateX(200px);
@@ -331,8 +332,9 @@ h2{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 30px;
+    padding: 0 30px;
     gap: 40px;
+    height: 100%;
 
 }
 
@@ -458,6 +460,9 @@ h2{
         object-fit: cover;
     
     }
+    .animated-text{
+        height: 50px;
+      }
     .animated-text h3{
         font-size: 1.3em;
         padding: 10px;
@@ -520,3 +525,59 @@ h2{
     }
     
 }
+@media screen and (max-width: 1000px){
+    *{
+        font-size: 1em;
+    }
+    .box:nth-child(2){
+        height: 700px;
+    }
+    .language-container{
+        display: grid;
+        grid-template-columns: repeat(2,200px);
+        grid-template-rows: repeat(4,100px);
+        justify-content: center;
+        align-content: center;
+    }
+
+
+    .box:nth-child(4){
+        padding: 100px 0;
+    }
+    .information{
+        height: 600px;
+        width: 70%;
+    }
+    .aboutme{
+        flex-direction: column;
+        font-size: 1.2em;
+        align-items: center;
+        gap: 10px;
+
+    }
+    .contact{
+        font-size: 1.2em;
+    }
+    .foto{
+        width: 140px;
+        height: 140px;
+        
+    }
+    .text-aboutme{
+        width: 100%;
+    }
+    .text-aboutme li {
+        margin-bottom: 5px; 
+
+        
+    }
+    .text-aboutme h2{
+        text-align: center;
+        font-size: 1.6em;
+    }
+    .text-aboutme li{
+        padding: 5px 0;
+    }
+}
+
+
