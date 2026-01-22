@@ -39,36 +39,34 @@ h2{
     z-index: -1;
 }
 
-.animated-text{
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 80px;
-    overflow: hidden;
-  }
-.animated-text h3{
-    color: #4e9eff;
-    font-size: 2.6em;
-    letter-spacing: 1px;
+.animated-text {
+  height: 3.2em;
+  overflow: hidden;
+  margin-top: 10px;
 }
-.animated-text h3:nth-child(1){
-    animation-name: text-move;
-    animation-iteration-count: infinite;
-    animation-duration: 10s;
-    animation-timing-function: ease-in-out;
 
+.animated-text-inner {
+  display: flex;
+  flex-direction: column;
+  animation: text-slide 6s ease infinite;
 }
-@keyframes text-move{
-    0%{
-      margin-top: 0;
-    }
-    50%{
-      margin-top: -140px;
-    }
-    100%{
-      margin-top: 0;
-    }
 
+.animated-text h3 {
+  height: 3.2em;
+  line-height: 3.2em;
+  margin: 0;
+  font-size: 2.6em;
+  color: #4e9eff;
+  letter-spacing: 1px;
+}
+
+@keyframes text-slide {
+  0%   { transform: translateY(-3.2em); }
+  25%  { transform: translateY(-3.2em); }
+  35%  { transform: translateY(-11.2em); }
+  60%  { transform: translateY(-11.2em); }
+  70%  { transform: translateY(-3.2em); }
+  100% { transform: translateY(-3.2em); }
 }
 .container {
     display: flex;
@@ -87,36 +85,13 @@ h2{
     font-size: 1em;
 }
 
-.box:first-child{
-    display: flex; 
-    flex-direction: column;
-    justify-content: flex-start; 
-    align-items: center;
-    text-align: center;
-    font-size: 1.5em;
-    height: 100vh; 
 
-    
+.tech-stack {
+margin-top: 600px;
+  background-color: rgba(25,34,52,0.6);
+    padding: 30px 0; 
+}
 
-}
-.box:nth-child(2){
-    background-color: rgba(25,34,52,0.5);
-    height: 250px;
-}
-.box:nth-child(3){
-    min-height: 100vh;
-    padding: 100px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 120px;
-    justify-content: start;
-    align-items: center;
-}
-.box:nth-child(4){
-    height: 700px;
-    border-top: 5px solid #0808084c;
-    padding: 50px 0;
-}
 
 
 
@@ -161,6 +136,9 @@ h2{
 
 }
 
+.project-section{
+    margin-top: 400px;
+}
 
 .project{
     min-height: 250px;
@@ -183,101 +161,57 @@ h2{
 }
 
 
-.project::before{
-    content: "";
-    color: #d1d4d7;
-    height: 40%;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    text-align: start;
-    font-size: 1.2em;
-    transform: translateX(-50%,-50%);
-    background-image: linear-gradient(to bottom,transparent 10%, #080808d3 );
-    position: absolute;
-    display: flex;
-    align-items: flex-end;
-    padding-left: 20px;
-    opacity: 0;
-    transition: opacity .4s;
-    white-space: pre-line;
-    line-height: 1.8em;
-}
 
 
-.project:hover::before{
-    opacity: 1;
-}
 
-.project:first-child {
-    background-image: url("./images/project1.png");
-    background-repeat: no-repeat;
-    background-position: bottom;
-    grid-column: span 3;
-    background-size: cover;
 
-}
-.project:first-child::before{
-    content: "First page\ATools: React, CSS, HMTL, Nodejs";
-}
 
-.project:nth-child(2){
-    background-image: url("./images/project2.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-.project:nth-child(2)::before{
-    content: "Second page\ATools: CSS, HMTL, Javascript, Python";
-}
-.project:nth-child(3){
-    background-image: url("./images/project3.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-.project:nth-child(3)::before{
-    content: "Third page\ATools: CSS, HMTL, Javascript";
-}
-.project:nth-child(4){
-    background-image: url("./images/project4.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
 .project:nth-child(4).show{
     transition: transform .6s ease .6s, opacity 1s .6s, scale .4s ease;
 }
-.project:nth-child(4)::before{
-    content: "Fourth page\ATools: React, HMTL, Javascript, Tailwind";
-}
-.project:nth-child(5){
-    background-image: url("./images/project5.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
+
+
 
 .project:nth-child(5).show{
     transition: transform .6s ease .6s, opacity 1s .6s, scale .4s ease;
 }
-.project:nth-child(5)::before{
-    content: "Fifth page\ATools: React, Nodejs, Tailwind";
-}
-.project:nth-child(6){
-    background-image: url("./images/project6.png");
-    background-repeat: no-repeat;
-    background-position: top;
-    background-size: cover;
-    grid-column: span 2;
 
-}
+
 .project:nth-child(6).show{
     transition: transform .6s ease .6s, opacity 1s .6s, scale .4s ease;
 }
-.project:nth-child(6)::before{
-    content: "Sixth page\ATools: React,CSS,Nodejs,Express";
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity .4s ease;
 }
+
+.project:hover .project-overlay {
+  opacity: 1;
+}
+
+.project-overlay h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.project-overlay p {
+  font-size: .9em;
+  color: #cfd6e0;
+}
+
+.contact-section{
+    margin-top: 300px;
+    padding-bottom: 200px;
+}
+
 .information{
     width: 50%;
     height: 500px;
@@ -366,9 +300,7 @@ h2{
     transition: background-color .4s ease;
     
 }
-.text-aboutme li:hover{
-    background-color: #0808084c;
-}
+
 
 .text-aboutme li::before {
     content: "•"; 
@@ -377,12 +309,14 @@ h2{
     left: -1em; 
 }
 .foto {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 100%;
-    transition: box-shadow 0.4s ease;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  object-position: top; 
+  border-radius: 50%;
+  transition: box-shadow 0.4s ease;
 }
+
 
 .foto:hover {
     box-shadow: 0 0 0 3px #4d9dfee8;

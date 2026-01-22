@@ -1,94 +1,129 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Portafolio</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="icon" href="images/portfolio.ico" type="image/x-icon">
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-    <script src='main.js'></script>
-    <script src="https://kit.fontawesome.com/7ec1e858d0.js" crossorigin="anonymous"></script>
-</head>
-<body>
-     <video autoplay loop muted class="video">
-        <source src="./images/video.mp4" type="video/mp4">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="images/portfolio.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@v10/font/simple-icons.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="main.js"></script>
+    <script
+      src="https://kit.fontawesome.com/7ec1e858d0.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <video autoplay loop muted class="video">
+      <source src="./images/video.mp4" type="video/mp4" />
+    </video>
 
-    </video> 
-    
-    <div class="container">
-        <div class="box">
-            <div class="presentation">
-                <h2>Hi, I am Alvez Alex</h2><br><br>
-                <div class="animated-text">
-                    <h3>Web Developer</h3>
-                    <h3>This is my Portfolio</h3>
-                </div>
-            </div>
+    <header class="box hero">
+      <div class="presentation">
+        <h1>Alex Alvez</h1>
+        <div class="animated-text">
+        <div class="animated-text-inner">
+          <h3>Web Developer</h3>
+          <h3>Frontend & Modern Web</h3>
         </div>
-        <div class="box">
-            <div class="knowledge">
-                <h2>MY TECHNOLOGIES</h2>
-                <div class="language-container">
-                    <div><i class="fa-brands fa-html5 language" title="HTML"></i></div>
-                    <div><i class="fa-brands fa-css3-alt language" title="CSS"></i></div>
-                    <div><i class="fa-brands fa-js language" title="Javascript"></i></div>
-                    <div><i class="fab fa-python language" title="Python"></i></div>
-                    <div><i class="fa-brands fa-react language" title="React"></i></div>
-                    <div><i class="fa-brands fa-node-js language" title="Nodejs"></i></div>
-                    <div><i class="fa-brands fa-github language" title="GitHub"></i></div>
-                </div>
-            </div>
         </div>
-        <div class="box">
-                <h2>MY PROJECTS</h2>
-            <div class="container-projects">
-                <div class="project project1"></div>
-                <div class="project project2"></div>
-                <div class="project project3"></div>
-                <div class="project project4"></div>
-                <div class="project project5"></div>
-                <div class="project project6"></div>
-            </div>
-        </div>
-        <div class="box">
-        
-            <div class="information">
-                <div class="information-btn">
-                    <div class="btn-container">
-                    <h2 class="aboutme-btn">ABOUT ME</h2>
-                    <h2 class="contact-btn">CONTACT</h2>
-                    </div>
-                </div>
-                <div class="aboutme">
-                <div class="text-aboutme">
-                <p>Me llamo Alex Alvez, tengo 19 años y Soy de Entre Ríos, Argentina. Actualmente estoy estudiando Licenciatura en sistemas, tambien hago cursos de desarrollo web.</p>
-                <h2>SKILLS</h2>
-                    <ul>
-                        <li>Entiendo y hablo inglés</li>
-                        <li>Soy muy bueno trabajando en equipo</li>
-                        <li>Aprendo rápido</li>
-                        <li>Me comprometo con cada tarea asignada</li>
-                    </ul>
-                </div>
-                
-                <img src="./images/foto.png" class="foto" alt="author´s photo" title="My face">
-                </div>
-                <div class="contact">
-                    <h3>If you are interested, here you can contact me</h3>
-                    <div class="links">
-                    <a href="https://www.instagram.com/colo_alvez/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="mailto:alexfalvez001@gmail.com" target="_blank"><i class="fa-regular fa-envelope"></i></a>
-                    <a href="https://github.com/alexalvez01" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </header>
+
+    <section class="box tech-stack">
+      <h2>TECH STACK</h2>
+      <div class="language-container">
+        <i class="fa-brands fa-html5 language" title="HTML"></i>
+        <i class="fa-brands fa-css3-alt language" title="CSS"></i>
+        <i class="fa-brands fa-js language" title="JavaScript"></i>
+        <i class="fa-brands fa-react language" title="React"></i>
+        <i class="si si-tailwindcss language" title="Tailwind CSS"></i>
+        <i class="si si-nodedotjs language" title="Node.js"></i>
+        <i class="si si-express language" title="Express.js"></i>
+        <i class="si si-nestjs language" title="NestJS"></i>
+        <i class="si si-postgresql language" title="PostgreSQL"></i>
+        <i class="fa-brands fa-github language" title="GitHub"></i>
+      </div>
+    </section>
+    <div class="box project-section">
+      <h2>MY PROJECTS</h2>
+      <div class="container-projects">
+        <article class="project project1">
+          <div class="project-overlay">
+            <h3>E-commerce App</h3>
+            <p>React · Node.js · CSS</p>
+          </div>
+        </article>
+         <article class="project project2">
+      <div class="project-overlay">
+        <h3>E-commerce App</h3>
+        <p>React · Node.js · CSS</p>
+      </div>
+    </article>
+         <article class="project project3">
+      <div class="project-overlay">
+        <h3>E-commerce App</h3>
+        <p>React · Node.js · CSS</p>
+      </div>
+    </article>
     </div>
-    <footer>
-        
-    </footer>
-</body>
+
+
+    <div class="box contact-section">
+      <div class="information">
+        <div class="information-btn">
+          <div class="btn-container">
+            <h2 class="aboutme-btn">ABOUT ME</h2>
+            <h2 class="contact-btn">CONTACT</h2>
+          </div>
+        </div>
+        <div class="aboutme">
+          <div class="text-aboutme">
+            <p>
+                I am a Web Developer from Argentina, currently studying a Bachelor's Degree in Systems.
+                I specialize in building responsive and interactive web applications using modern technologies.
+                I enjoy learning new tools and working in collaborative environments.
+            </p>
+
+            <h2>SOFT SKILLS</h2>
+            <ul>
+                <li>Teamwork</li>
+                <li>Fast learner</li>
+                <li>Responsibility</li>
+                <li>Good english</li>
+            </ul>
+          </div>
+
+          <img
+            src="./images/foto.png"
+            class="foto"
+            alt="author´s photo"
+            title="My face"
+          />
+        </div>
+        <div class="contact">
+          <h3>If you are interested, here you can contact me</h3>
+          <div class="links">
+            <a href="https://www.instagram.com/colo_alvez/" target="_blank"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+            <a href="mailto:alexfalvez001@gmail.com" target="_blank"
+              ><i class="fa-regular fa-envelope"></i
+            ></a>
+            <a href="https://github.com/alexalvez01" target="_blank"
+              ><i class="fa-brands fa-github"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer></footer>
+  </body>
 </html>
