@@ -1,17 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".tab-btn");
-  const panels = document.querySelectorAll(".tab-panel");
+  const slider = document.querySelector(".tab-content-inner");
 
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        tabs.forEach(t => t.classList.remove("active"));
-        panels.forEach(p => p.classList.remove("active"));
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
 
-    tab.classList.add("active");
-    document.getElementById(tab.dataset.tab).classList.add("active");
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      if (tab.dataset.tab === "contact") {
+        slider.style.transform = "translateX(-50%)";
+      } else {
+        slider.style.transform = "translateX(0%)";
+      }
+
+    });
   });
-});
-
 
   const observer = new IntersectionObserver(
     entries => {
