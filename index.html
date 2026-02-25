@@ -55,75 +55,80 @@
     <div class="box project-section">
       <h2>MY PROJECTS</h2>
       <div class="container-projects">
-        <article class="project project1">
-          <div class="project-overlay">
-            <h3>E-commerce App</h3>
-            <p>React · Node.js · CSS</p>
-          </div>
-        </article>
          <article class="project project2">
+          <img src="./images/TaskApp.webp" class="project-img" alt="Task Management App screenshot" title="Task Management App" />
       <div class="project-overlay">
-        <h3>E-commerce App</h3>
-        <p>React · Node.js · CSS</p>
+        <h3>Task Management App</h3>
+        <p>React · Node.js · CSS · PostgreSQL · Docker</p>
       </div>
     </article>
          <article class="project project3">
+          <img src="./images/NotesApp.webp" class="project-img" alt="Notes App screenshot" title="Notes App" />
       <div class="project-overlay">
-        <h3>E-commerce App</h3>
-        <p>React · Node.js · CSS</p>
+        <h3>Notes App</h3>
+        <p>React · Nest.js · Tailwind CSS · PostgreSQL · Docker</p>
       </div>
     </article>
+        <article class="project project1 ecommerce">
+          <img src="./images/E-commerce.webp" class="project-img" alt="E-commerce App screenshot" title="E-commerce App" />
+          <div class="project-overlay">
+            <h3>E-commerce App</h3>
+            <p>React · Node.js · Tailwind CSS · PostgreSQL · Neon</p>
+          </div>
+        </article>
     </div>
 
+    <section class="contact-section">
+  <div class="contact-card">
 
-    <div class="box contact-section">
-      <div class="information">
-        <div class="information-btn">
-          <div class="btn-container">
-            <h2 class="aboutme-btn">ABOUT ME</h2>
-            <h2 class="contact-btn">CONTACT</h2>
-          </div>
-        </div>
-        <div class="aboutme">
-          <div class="text-aboutme">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="about">ABOUT ME</button>
+      <button class="tab-btn" data-tab="contact">CONTACT</button>
+    </div>
+
+    <div class="tab-content">
+
+      <div class="tab-panel active" id="about">
+        <div class="about-wrapper">
+          <div class="about-text">
             <p>
-                I am a Web Developer from Argentina, currently studying a Bachelor's Degree in Systems.
-                I specialize in building responsive and interactive web applications using modern technologies.
-                I enjoy learning new tools and working in collaborative environments.
+              I am a Web Developer from Argentina, currently studying a Bachelor's Degree in Systems.
+              I specialize in building responsive and interactive web applications using modern technologies.
+              I enjoy learning new tools and working in collaborative environments.
             </p>
 
-            <h2>SOFT SKILLS</h2>
+            <h3>SOFT SKILLS</h3>
             <ul>
-                <li>Teamwork</li>
-                <li>Fast learner</li>
-                <li>Responsibility</li>
-                <li>Good english</li>
+              <li>Teamwork</li>
+              <li>Fast learner</li>
+              <li>Responsibility</li>
+              <li>Good English</li>
             </ul>
           </div>
 
-          <img
-            src="./images/foto.png"
-            class="foto"
-            alt="author´s photo"
-            title="My face"
-          />
-        </div>
-        <div class="contact">
-          <h3>If you are interested, here you can contact me</h3>
-          <div class="links">
-            <a href="https://www.instagram.com/colo_alvez/" target="_blank"
-              ><i class="fa-brands fa-instagram"></i
-            ></a>
-            <a href="mailto:alexfalvez001@gmail.com" target="_blank"
-              ><i class="fa-regular fa-envelope"></i
-            ></a>
-            <a href="https://github.com/alexalvez01" target="_blank"
-              ><i class="fa-brands fa-github"></i
-            ></a>
-          </div>
+          <img src="./images/foto.png" class="about-photo" />
         </div>
       </div>
+
+      <div class="tab-panel" id="contact">
+        <h3>If you are interested, you can contact me</h3>
+        <div class="social-links">
+          <a href="https://www.instagram.com/colo_alvez/" target="_blank">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="mailto:alexfalvez001@gmail.com">
+            <i class="fa-regular fa-envelope"></i>
+          </a>
+          <a href="https://github.com/alexalvez01" target="_blank">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </div>
+      </div>
+
     </div>
-    <footer></footer>
+
+  </div>
+</section>
+
   </body>
 </html>

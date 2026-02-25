@@ -1,32 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const aboutBtn = document.querySelector(".aboutme-btn");
-  const contactBtn = document.querySelector(".contact-btn");
-  const about = document.querySelector(".aboutme");
-  const contact = document.querySelector(".contact");
+  const tabs = document.querySelectorAll(".tab-btn");
+  const panels = document.querySelectorAll(".tab-panel");
 
-  const showSection = (show, hide) => {
-    hide.classList.remove("show");
-    hide.style.display = "none";
-    show.style.display = "flex";
-    setTimeout(() => show.classList.add("show"), 100);
-  };
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        panels.forEach(p => p.classList.remove("active"));
 
-  about.classList.add("show");
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
 
-  aboutBtn.addEventListener("click", () => showSection(about, contact));
-  contactBtn.addEventListener("click", () => showSection(contact, about));
 
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("show")
+        if (entry.target.classList && entry.target.classList.contains('container-projects')) {
+          const projects = entry.target.querySelectorAll('.project');
+          if (entry.isIntersecting) projects.forEach(p => p.classList.add('show'));
+          else projects.forEach(p => p.classList.remove('show'));
+          return;
+        }
+
+        if (entry.isIntersecting) entry.target.classList.add("show");
         else entry.target.classList.remove("show");
       });
     },
     { threshold: 0.3 }
   );
 
-  document
-    .querySelectorAll(".language-container, .project, .information")
+
+  document.querySelectorAll(".language-container, .container-projects, .information")
     .forEach(el => observer.observe(el));
 });
