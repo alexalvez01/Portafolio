@@ -1,16 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Intersection Observer para la Tarjeta de Perfil y la Sección de Proyectos
+  // Función genérica para animación de tipeo (se ejecuta una sola vez)
+  const typeWriterOnce = (el, speed = 100) => {
+    if (el.dataset.typingStarted) return;
+    el.dataset.typingStarted = "true";
+    const text = el.dataset.originalText || el.textContent.trim();
+    el.textContent = "";
+    el.classList.add('typing-cursor');
+    let i = 0;
+    const type = () => {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, speed);
+      } else {
+        el.classList.remove('typing-cursor');
+      }
+    };
+    type();
+  };
+
+  // Preparar los headers para que no tengan texto al inicio (evita parpadeo)
+  document.querySelectorAll('.about-section h2, .tech-stack h2, .project-section h2').forEach(h2 => {
+    h2.dataset.originalText = h2.textContent.trim();
+    h2.textContent = "";
+  });
+
   const sectionObserver = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('show');
+          
+          // Si la sección tiene un h2, disparamos el efecto de tipeo (excepto en la profile card)
+          const h2 = entry.target.querySelector('h2');
+          if (h2 && !h2.dataset.typingStarted && !entry.target.classList.contains('profile-card')) {
+            typeWriterOnce(h2, 150);
+          }
         } else {
           entry.target.classList.remove('show');
         }
       });
     },
-    { threshold: 0.3 } // Activar un poco antes para secciones grandes
+    { threshold: 0.2 } // Un poco más sensible para pantallas pequeñas
   );
 
   const profileCard = document.querySelector(".profile-card");
@@ -53,107 +85,123 @@ document.addEventListener("DOMContentLoaded", () => {
   if (hero && canvas) {
     const ctx = canvas.getContext("2d");
     
-    // Ajustar el tamaño del canvas para que coincida con la sección hero
-    const resizeCanvas = () => {
-      canvas.width = hero.offsetWidth;
-      canvas.height = hero.offsetHeight;
-    };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    let mouseX = canvas.width / 2;
-    let mouseY = canvas.height / 2;
-    
-    // Configuración del campo de estrellas
-    const numStars = 800;
-    let stars = [];
-    let speed = 2; // Velocidad base
+    // --- Efecto Magnetic Particles (repulsión y retorno suave) ---
+    let particlesArray = [];
+    const mouse = { x: null, y: null, radius: 150 };
 
     hero.addEventListener("mousemove", (e) => {
       const rect = hero.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-      // Al alejar el mouse del centro, aumenta la velocidad radialmente, pero con un límite menor
-      let distFromCenter = Math.sqrt(Math.pow(mouseX - canvas.width / 2, 2) + Math.pow(mouseY - canvas.height / 2, 2));
-      let targetSpeed = 2 + (distFromCenter / 150); // Divisor más alto para que el incremento sea menor
-      speed = Math.min(targetSpeed, 6); // Velocidad máxima tope ajustada a 6
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
     });
 
     hero.addEventListener("mouseleave", () => {
-      mouseX = canvas.width / 2;
-      mouseY = canvas.height / 2;
-      speed = 2;
+      mouse.x = null;
+      mouse.y = null;
     });
 
-    // Inicializar estrellas
-    const init = () => {
-      stars = [];
-      for (let i = 0; i < numStars; i++) {
-        stars.push({
-          x: (Math.random() - 0.5) * canvas.width * 2,
-          y: (Math.random() - 0.5) * canvas.height * 2,
-          z: Math.random() * canvas.width, // Profundidad
-          pz: Math.random() * canvas.width // Profundidad previa para el rastro
-        });
-      }
-    };
-
-    // Renderizar la animación
-    const animate = () => {
-      requestAnimationFrame(animate);
-      
-      // Fondo oscuro con ligero rastro
-      ctx.fillStyle = "rgba(14, 13, 13, 0.5)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      // Centro de expansión dinámico según el ratón, con efecto suavizado
-      const targetCenterX = canvas.width / 2 + (canvas.width / 2 - mouseX) * 0.1;
-      const targetCenterY = canvas.height / 2 + (canvas.height / 2 - mouseY) * 0.1;
-      
-      ctx.save();
-      ctx.translate(targetCenterX, targetCenterY);
-
-      for (let i = 0; i < numStars; i++) {
-        let star = stars[i];
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.dx = (Math.random() - 0.5) * 0.6; // Velocidad en X
+        this.dy = (Math.random() - 0.5) * 0.6; // Velocidad en Y
         
-        star.pz = star.z;
-        star.z -= speed;
+        // Color: Escala de grises minimalista (platas y humos)
+        const colors = ['#a1a1aa', '#71717a', '#52525b', '#3f3f46'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
 
-        if (star.z < 1) {
-          star.z = canvas.width;
-          star.x = (Math.random() - 0.5) * canvas.width * 2;
-          star.y = (Math.random() - 0.5) * canvas.height * 2;
-          star.pz = star.z;
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      update() {
+        // Rebote en bordes
+        if (this.x + this.size > canvas.width || this.x - this.size < 0) {
+          this.dx = -this.dx;
+        }
+        if (this.y + this.size > canvas.height || this.y - this.size < 0) {
+          this.dy = -this.dy;
         }
 
-        // Proyección de perspectiva (divide x/y por z)
-        let fov = 300; // Campo de visión
-        let sx = (star.x / star.z) * fov;
-        let sy = (star.y / star.z) * fov;
-        
-        // Posición anterior (rastro)
-        let px = (star.x / star.pz) * fov;
-        let py = (star.y / star.pz) * fov;
-
-        // Tamaño dependiente de la profundidad
-        let size = Math.max(0.1, (1 - star.z / canvas.width) * 2.5);
-        
-        // Color de la estrella (más brillante y opaca cerca)
-        let opacity = Math.min(1, Math.max(0, 1 - star.z / canvas.width));
-        // Tonos azules/blancos para las estrellas
-        ctx.strokeStyle = `rgba(180, 220, 255, ${opacity})`;
-        ctx.lineWidth = size;
-        
-        ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.lineTo(sx, sy);
-        ctx.stroke();
+        this.x += this.dx;
+        this.y += this.dy;
       }
+    }
+
+    const init = () => {
+      particlesArray = [];
+      // Cantidad de partículas basada en el tamaño del canvas (densidad aumentada)
+      let numberOfParticles = (canvas.width * canvas.height) / 6000;
+      // Límite aumentado a 350 para mantener la fluidez
+      if (numberOfParticles > 250) numberOfParticles = 250;
       
-      ctx.restore();
+      for (let i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle());
+      }
     };
 
-    init();
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].draw();
+        particlesArray[i].update();
+
+        // Efecto red de partículas (Constellation) - Conexión entre ellas
+        for (let j = i; j < particlesArray.length; j++) {
+          let dx = particlesArray[i].x - particlesArray[j].x;
+          let dy = particlesArray[i].y - particlesArray[j].y;
+          let distanceSq = dx * dx + dy * dy;
+          
+          if (distanceSq < 10000) { // Si están a menos de 100px
+            let opacity = 1 - (Math.sqrt(distanceSq) / 100);
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(161, 161, 170, ${opacity * 0.5})`;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+            ctx.stroke();
+            ctx.closePath();
+          }
+        }
+
+        // Conexión dinámica extra con el cursor (el mouse "teje" la red)
+        if (mouse.x !== null && mouse.y !== null) {
+           let dxCursor = particlesArray[i].x - mouse.x;
+           let dyCursor = particlesArray[i].y - mouse.y;
+           let distanceCursorSq = dxCursor * dxCursor + dyCursor * dyCursor;
+           
+           if (distanceCursorSq < 22500) { // a menos de 150px del mouse
+              let opacity = 1 - (Math.sqrt(distanceCursorSq) / 150);
+              ctx.beginPath();
+              // Línea ligeramente más opaca para resaltar la interacción
+              ctx.strokeStyle = `rgba(161, 161, 170, ${opacity * 0.7})`;
+              ctx.lineWidth = 1.2;
+              ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+              ctx.closePath();
+           }
+        }
+      }
+      requestAnimationFrame(animate);
+    };
+
+    const resizeCanvas = () => {
+      canvas.width = hero.offsetWidth;
+      canvas.height = hero.offsetHeight;
+      init(); // Re-inicializar constelación
+
+    };
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
     animate();
   }
 
@@ -202,6 +250,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Comenzar animación con un pequeño retraso
     setTimeout(typeWriter, 1000);
+  }
+
+  // --- Scroll Suave Manual para el botón de bajar ---
+  const scrollIcon = document.querySelector('.scroll-down-icon');
+  if (scrollIcon) {
+    scrollIcon.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = scrollIcon.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      
+      if (targetElement) {
+        const startPosition = window.pageYOffset || window.scrollY;
+        const targetPosition = targetElement.getBoundingClientRect().top + startPosition;
+        const distance = targetPosition - startPosition;
+        const duration = 800; 
+        let start = null;
+
+    
+        const easeInOutCubic = (t, b, c, d) => {
+          t /= d / 2;
+          if (t < 1) return c / 2 * t * t * t + b;
+          t -= 2;
+          return c / 2 * (t * t * t + 2) + b;
+        };
+
+        const animation = (currentTime) => {
+          if (start === null) start = currentTime;
+          const timeElapsed = currentTime - start;
+          const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+          window.scrollTo(0, run);
+          
+          if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+          } else {
+            window.scrollTo(0, targetPosition);
+          }
+        };
+
+        requestAnimationFrame(animation);
+      }
+    });
   }
 });
 

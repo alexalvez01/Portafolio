@@ -7,8 +7,8 @@ html {
 body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    overflow-x: hidden; 
+    min-height: 100vh;
+    overflow-x: clip; 
     background-color: rgba(0,0,0);
 }
 
@@ -29,16 +29,7 @@ h2{
     }
 }
 
-.video {
-    position: absolute;
-    display: none;
-    left: 0; 
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    z-index: -1;
-}
+
 
 .typing-cursor::after {
   content: '|';
@@ -57,7 +48,7 @@ h2{
 
 .glitch-text {
   font-size: 2.6em;
-  color: #4e9eff;
+  color: #e11d48;
   letter-spacing: 1px;
   margin: 0;
   position: relative;
@@ -74,9 +65,9 @@ h2{
   height: 100%;
   background: transparent;
   left: 2px;
-  text-shadow: -2px 0 #00e5ff; /* Celeste brillante/cyan para mayor profundidad */
+  text-shadow: -2px 0 #fb7185; 
   clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim 8s infinite linear alternate-reverse; /* Mucho más lento (de 5s a 8s) */
+  animation: glitch-anim 8s infinite linear alternate-reverse; 
 }
 
 /* Solo usamos una capa suave de distorsión */
@@ -107,22 +98,24 @@ h2{
 .presentation {
   position: relative;
   z-index: 2;
-  pointer-events: none; /* Let pointer events pass through to canvas if needed, or keep text selectable */
+  pointer-events: none; 
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 /* --- Scroll Down Arrow --- */
 .scroll-down-icon {
   position: absolute;
-  bottom: 40px; /* Separación desde abajo */
+  bottom: 40px; 
   left: 50%;
   transform: translateX(-50%);
-  color: #a1a1aa; /* Gris oscuro idéntico a la imagen */
+  color: #a1a1aa; 
   font-size: 1.8rem;
   z-index: 10;
   text-decoration: none;
   animation: bounce 2s infinite ease-in-out;
   transition: color 0.3s ease;
-  pointer-events: auto; /* Para que se le pueda hacer clic por encima del canvas */
+  pointer-events: auto; 
 }
 
 .scroll-down-icon:hover {
@@ -146,11 +139,11 @@ h2{
   line-height: 3.2em;
   margin: 0;
   font-size: 2.6em;
-  color: #4e9eff;
+  color: #e11d48;
   letter-spacing: 1px;
 }
 
-/* Remove old keyframes text-slide */
+
 .container {
     display: flex;
     flex-direction: column;
@@ -236,8 +229,8 @@ h2{
 }
 
 .profile-img-container {
-    width: 200px;
-    height: 200px;
+    width: 230px;
+    height: 230px;
     margin: 0 auto 24px auto;
     border-radius: 16px;
     overflow: hidden;
@@ -319,7 +312,7 @@ h2{
     min-width: 180px;
     margin: 0 auto;
     padding: 14px;
-    background: #4e9eff; 
+    background: #e11d48; 
     color: white;
     text-decoration: none;
     border-radius: 12px;
@@ -329,7 +322,7 @@ h2{
 }
 
 .contact-btn:hover {
-    background: #458adf;
+    background: #be123c; 
     transform: translateY(-2px);
 }
 
@@ -361,11 +354,14 @@ h2{
     transform: translateY(0);
 }
 
-.about-section h2 {
+.about-section h2, .tech-stack h2, .project-section h2 {
     margin-bottom: 30px;
     color: #fff;
     font-size: 2rem;
     text-align: center;
+    animation: none;
+    animation-timeline: none;
+    opacity: 1;
 }
 
 .about-content p {
@@ -376,7 +372,7 @@ h2{
 }
 
 .about-content strong {
-    color: #4e9eff;
+    color: #e11d48;
     font-weight: 500;
 }
 
@@ -405,13 +401,13 @@ h2{
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #4e9eff;
-    box-shadow: 0 0 10px rgba(78, 158, 255, 0.5);
+    background-color: #e11d48;
+    box-shadow: 0 0 10px rgba(225, 29, 72, 0.5);
 }
 
 .timeline-date {
     font-size: 0.9rem;
-    color: #4e9eff;
+    color: #e11d48;
     font-weight: 500;
     margin-bottom: 5px;
 }
@@ -479,16 +475,16 @@ h2{
 }
 
 .language:hover{
-    color: #4e9eff;
+    color: #e11d48;
     transform: scale(1.4);
     translate: 0 -5px;
-    text-shadow: 0 0 20px rgba(78, 158, 255, 0.5), 0 0 40px rgba(78, 158, 255, 0.25);
+    text-shadow: 0 0 20px rgba(225, 29, 72, 0.5), 0 0 40px rgba(225, 29, 72, 0.25);
     animation-play-state: paused;
     transition: color 0.2s ease, transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), translate 0.3s ease, text-shadow 0.3s ease;
 }
-.container-projects{
-    display: flex;
-    flex-direction: column;
+.container-projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     width: 100%;
     gap: 32px;
 }
@@ -510,43 +506,57 @@ h2{
     transform: translateX(0);
 }
 
-.project-section h2{
+.project-section h2 {
     margin-bottom: 40px; 
 }
 
-.project{
-    height: 150px;
+@property --border-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    height: 380px;
     width: 100%;
     position: relative;
     overflow: hidden;
-    transition: transform .6s ease, height .8s cubic-bezier(0.25, 1, 0.5, 1), border-radius .4s ease;
+    
+    /* Configuración para el borde animado*/
+    border: 2px solid transparent; 
+    border-radius: 32px;
+    background: 
+        linear-gradient(#1a1a1c, #1a1a1c) padding-box,
+        conic-gradient(from 0deg, #e11d48 var(--border-angle), #27272a 0deg) border-box;
+    
     box-shadow: 0 0 15px 0 #080808b5;
-    border-radius: 12px;
-    border: 1px solid transparent;
+    transition: transform .6s ease, --border-angle .8s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .4s ease;
 }
 
-
-.project:hover{
-    transform: translateX(0) translateY(-6px);
-    height: 400px;
+.project:hover {
+    transform: translateY(-8px);
     z-index: 100;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(78, 158, 255, 0.2);
-    border-color: rgba(78, 158, 255, 0.4);
+    --border-angle: 360deg; /* La pintura en sentido horario hasta el 100% */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(225, 29, 72, 0.2);
 }
 
 .project-img,
-.project img{
+.project img {
     width: 100%;
-    height: 100%;
+    height: 220px;
     display: block;
     object-fit: cover;
     object-position: top center;
+    flex-shrink: 0;
+    border-radius: 0;
     transition: transform .45s cubic-bezier(.2,.9,.2,1);
     transform-origin: center center;
 }
-.project:hover img{
-    transform: scale(1.03); /* Ligeramente acerca la imagen misma */
+
+.project:hover img {
+    transform: scale(1.05); /* Adds a subtle zoom effect */
 }
 
 
@@ -561,7 +571,8 @@ h2{
 .project::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0; left: 0; right: 0;
+    height: 220px;
     backdrop-filter: grayscale(1) brightness(0.7);
     z-index: 2;
     --reveal: 0%;
@@ -576,30 +587,29 @@ h2{
 
 
 .project-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
-  opacity: 0;
-  transition: opacity .4s ease;
+  justify-content: flex-start;
+  padding: 24px 20px;
+  flex-grow: 1;
+  background-color: #1a1a1c;
   z-index: 3;
-}
-
-.project:hover .project-overlay {
   opacity: 1;
 }
 
 .project-overlay h3 {
-  margin: 0;
-  font-size: 1.2em;
+  margin: 0 0 8px 0;
+  font-size: 1.4em;
+  color: #ffffff;
+  font-weight: 600;
 }
 
 .project-overlay p {
-  font-size: .9em;
-  color: #cfd6e0;
+  margin: 0;
+  font-size: 0.95em;
+  color: #a1a1aa;
+  line-height: 1.5;
 }
 
 
@@ -642,18 +652,7 @@ h2{
         font-size: .8em;
     }
     .container-projects{
-        grid-template-columns: repeat(2 ,1fr);
-        grid-template-rows: repeat(4, 1fr);
-        padding-bottom:  150px;
-    }
-    .project{
-        min-height: 200px;
-    }
-    .project.ecommerce {
-        grid-column: span 2;
-    }
-    .project::before{
-        height: 50%;
+        padding-bottom: 50px;
     }
 }
 @media screen and (max-width: 1000px){
@@ -687,9 +686,6 @@ h2{
 
     .container-projects{
         grid-template-columns: 1fr;
-    }
-    .project.ecommerce {
-        grid-column: span 1;
     }
 }
 
