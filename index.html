@@ -26,10 +26,26 @@
 
     <header class="box hero">
       <canvas id="spotlight-canvas"></canvas>
-      <div class="presentation">
-        <h1>Hi, I'm Alex Alvez</h1>
-        <div class="glitch-wrapper">
-          <h3 class="glitch-text" data-text="Full Stack Developer">Full Stack Developer</h3>
+      <div class="hero-content">
+        <div class="presentation">
+          <h1>Hi, I'm Alex Alvez</h1>
+          <div class="glitch-wrapper">
+            <h3 class="glitch-text" data-text="Full Stack Developer">Full Stack Developer</h3>
+          </div>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-header">
+        
+            <span class="terminal-title">alex-cli — interactive</span>
+          </div>
+          <div class="terminal-body" id="terminal-body">
+            <div id="terminal-output"></div>
+            <div class="terminal-input-line" id="terminal-input-line" style="display:none;">
+              <span class="prompt">visitor@alex&gt;</span>
+              <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" />
+            </div>
+          </div>
         </div>
       </div>
       <a href="#content-start" class="scroll-down-icon" aria-label="Scroll down">

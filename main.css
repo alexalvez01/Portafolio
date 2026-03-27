@@ -47,7 +47,7 @@ h2{
 }
 
 .glitch-text {
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
   color: #e11d48;
   letter-spacing: 1px;
   margin: 0;
@@ -95,19 +95,153 @@ h2{
   100% { clip: rect(2px, 9999px, 71px, 0); }
 }
 
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 40px 0 80px;
+  box-sizing: border-box;
+}
+
 .presentation {
   position: relative;
   z-index: 2;
   pointer-events: none; 
   user-select: none;
   -webkit-user-select: none;
+  text-align: left;
+  flex: 1;
+  min-width: 480px;
 }
 
 .presentation h1 {
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(1.8rem, 3.5vw, 3.2rem);
   margin: 0;
   margin-bottom: 5px;
   color: #fff;
+  white-space: nowrap;
+}
+
+/* --- Interactive Terminal --- */
+.terminal {
+  width: 620px;
+  max-width: 100%;
+  flex-shrink: 0;
+  background: #0c0c0c;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  border: 1px solid #333;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  gap: 10px;
+}
+
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  color: #71717a;
+  font-size: 0.85rem;
+  font-family: "Fira Code", monospace;
+}
+
+.terminal-body {
+  padding: 18px;
+  font-family: "Fira Code", monospace;
+  font-size: 0.85rem;
+  color: #cccccc;
+  min-height: 280px;
+  max-height: 350px;
+  overflow-y: auto;
+  line-height: 1.7;
+  text-align: left;
+  background: #0c0c0c;
+}
+
+.terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
+
+.terminal-line {
+  margin-bottom: 4px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-line .arrow {
+  color: #28c840;
+  margin-right: 8px;
+}
+
+.terminal-line .cmd {
+  color: #fff;
+
+}
+
+.terminal-line .green {
+  color: #28c840;
+}
+
+.terminal-line .cyan{
+    color: #22d3ee;
+}
+.terminal-line .pink {
+  color: #e11d48;
+}
+
+.terminal-line .dim {
+  color: #71717a;
+}
+
+.terminal-line .yellow {
+  color: #ffbd2e;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.terminal-input-line .prompt {
+  color: #fff;
+  margin-right: 10px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+#terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: "Fira Code", monospace;
+  font-size: 0.9rem;
+  flex: 1;
+  caret-color: #e11d48;
 }
 
 /* --- Scroll Down Arrow --- */
@@ -536,10 +670,10 @@ h2{
 }
 
 .tech-category-header {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 500;
     color: #fff;
-    padding: 25px 0;
+    padding: 20px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -572,13 +706,13 @@ h2{
 }
 
 .tech-category:hover .tech-category-content {
-    max-height: 300px;
+    max-height: 250px;
     opacity: 1;
-    padding: 15px 0 30px 0;
+    padding: 15px 0 20px 0;
 }
 
 .tech-icon {
-    font-size: 5em; /* Resize icons to fit better inside the accordion */
+    font-size: 4.5em; 
     color: #e0e0e0;
     transition: color 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), text-shadow 0.3s ease;
     cursor: default;
@@ -778,6 +912,9 @@ h2{
     .container-projects{
         padding-bottom: 50px;
     }
+    .terminal {
+        width: 450px;
+    }
 }
 @media screen and (max-width: 1000px){
     *{
@@ -803,6 +940,21 @@ h2{
 
     .container-projects{
         grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        gap: 30px;
+        padding: 0 20px;
+    }
+
+    .presentation {
+        text-align: center;
+    }
+
+    .terminal {
+        width: 100%;
+        max-width: 450px;
     }
 }
 

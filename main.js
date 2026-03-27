@@ -139,8 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
       particlesArray = [];
       // Cantidad de partículas basada en el tamaño del canvas (densidad aumentada)
       let numberOfParticles = (canvas.width * canvas.height) / 6000;
-      // Límite aumentado a 350 para mantener la fluidez
-      if (numberOfParticles > 250) numberOfParticles = 250;
+      // Límite aumentado a 300 para mantener la fluidez
+      if (numberOfParticles > 300) numberOfParticles = 300;
       
       for (let i = 0; i < numberOfParticles; i++) {
         particlesArray.push(new Particle());
@@ -289,6 +289,130 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         requestAnimationFrame(animation);
+      }
+    });
+  }
+
+  // --- Terminal Interactiva ---
+  const terminalOutput = document.getElementById('terminal-output');
+  const terminalInputLine = document.getElementById('terminal-input-line');
+  const terminalInput = document.getElementById('terminal-input');
+  const terminalBody = document.getElementById('terminal-body');
+
+  if (terminalOutput && terminalInput && terminalBody) {
+
+    const addLine = (html, extraClass = '') => {
+      const line = document.createElement('div');
+      line.className = 'terminal-line' + (extraClass ? ` ${extraClass}` : '');
+      line.innerHTML = html;
+      terminalOutput.appendChild(line);
+      terminalBody.scrollTop = terminalBody.scrollHeight;
+    };
+
+    // Función para scroll suave con margen superior
+    const smoothScrollTo = (selector) => {
+      const el = document.querySelector(selector);
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 40;
+        window.scrollTo({top, behavior: 'smooth'});
+      }
+    };
+
+    // Líneas de la secuencia de arranque
+    const bootSequence = [
+      { html: '> <span class="cmd">npm start alex-portfolio</span>', delay: 500 },
+      { html: '', delay: 200 },
+      { html: '<span class="dim">[..........] / installing dependencies</span>', delay: 700 },
+      { html: '<span class="dim">[##########] ✓ dependencies ready</span>', delay: 500 },
+      { html: '', delay: 150 },
+      { html: '&nbsp;&nbsp;<span class="dim">⊙</span> Compiling modules...', delay: 400 },
+      { html: '&nbsp;&nbsp;<span class="dim">⊙</span> Building portfolio...', delay: 400 },
+      { html: '&nbsp;&nbsp;<span class="dim">⊙</span> Starting dev server...', delay: 400 },
+      { html: '', delay: 200 },
+      { html: '<span class="green">  ✓ Portfolio is running successfully!</span>', delay: 100 },
+      { html: '', delay: 300 },
+      { html: '<span class="yellow">  Type \'help\' to see available commands.</span>', delay: 100 },
+      { html: '', delay: 200 },
+    ];
+
+    // Ejecutar secuencia de arranque, luego mostrar input
+    let bootIndex = 0;
+    const runBoot = () => {
+      if (bootIndex < bootSequence.length) {
+        const item = bootSequence[bootIndex];
+        addLine(item.html);
+        bootIndex++;
+        setTimeout(runBoot, item.delay);
+      } else {
+        // Mostrar línea de entrada
+        terminalInputLine.style.display = 'flex';
+        terminalInput.focus();
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+      }
+    };
+
+    // Iniciar arranque con un pequeño retraso
+    setTimeout(runBoot, 800);
+
+    // Hacer click en cualquier parte del body del terminal para enfocar el input
+    terminalBody.addEventListener('click', () => {
+      if (terminalInputLine.style.display !== 'none') {
+        terminalInput.focus();
+      }
+    });
+
+    // Manejo de comandos
+    const commands = {
+      about: () => {
+        addLine('');
+        addLine("Full Stack Developer from Argentina. Currently 4th year Bachelor's Degree in Systems student at UADER. Passionate about building modern web apps");
+        addLine('');
+      },
+      skills: () => {
+        addLine('<span class="cyan">→ Navigating to Tech Stack...</span>');
+        setTimeout(() => smoothScrollTo('.tech-stack'), 300);
+      },
+      projects: () => {
+        addLine('<span class="cyan">→ Navigating to Projects...</span>');
+        setTimeout(() => smoothScrollTo('.project-section'), 300);
+      },
+      contact: () => {
+        addLine('');
+        addLine('  <span class="cmd">Email:</span>    <span class="dim">alexfalvez001@gmail.com</span>');
+        addLine('  <span class="cmd">Phone:</span>    <span class="dim">+54 9 3442 66-8413</span>');
+        addLine('');
+      },
+      help: () => {
+        addLine('');
+        addLine('<span class="cyan">  Available commands:</span>');
+        addLine('  <span class="cmd">about </span>    <span class="dim">View my information</span>');
+        addLine('  <span class="cmd">skills </span>   <span class="dim">View my tech stack</span>');
+        addLine('  <span class="cmd">projects </span> <span class="dim">View my projects</span>');
+        addLine('  <span class="cmd">contact </span>  <span class="dim">View my contact information</span>');
+        addLine('  <span class="cmd">clear </span>    <span class="dim">Clear this terminal</span>');
+        addLine('  <span class="cmd">help </span>     <span class="dim">Show this help menu</span>');
+        addLine('');
+      },
+      clear: () => {
+        terminalOutput.innerHTML = '';
+      }
+    };
+
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const value = terminalInput.value.trim().toLowerCase();
+        
+        // Repetir el comando escrito
+        addLine(`<span class="cmd">visitor@alex&gt;</span> ${value || ' '}`);
+        terminalInput.value = '';
+
+        if (value === '') return;
+
+        if (commands[value]) {
+          commands[value]();
+        } else {
+          addLine(`<span class="pink">  Command not found: '${value}'. Type 'help' for available commands.</span>`);
+        }
       }
     });
   }
