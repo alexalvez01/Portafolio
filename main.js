@@ -207,49 +207,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Animación de Tipeo para el Hero (H1) ---
   const heroH1 = document.querySelector('.presentation h1');
+  let startHeroTyping = () => {};
+
   if (heroH1) {
     // Texto a simular que se escribe
     const textToType = "Hi, I'm Alex Alvez";
     
-    // Preparar el elemento limpiando y añadiendo el cursor
+    // Preparar el elemento limpiando y SIN cursor inicial
     heroH1.textContent = "";
-    heroH1.classList.add('typing-cursor');
 
-    let charIndex = 0;
-    let isDeleting = false;
+    startHeroTyping = () => {
+      heroH1.classList.add('typing-cursor');
+      let charIndex = 0;
+      let isDeleting = false;
 
-    const typeWriter = () => {
-      if (isDeleting) {
-        // Borrando caracteres
-        heroH1.textContent = textToType.substring(0, charIndex - 1);
-        charIndex--;
-      } else {
-        // Escribiendo caracteres
-        heroH1.textContent = textToType.substring(0, charIndex + 1);
-        charIndex++;
-      }
+      const typeWriter = () => {
+        if (isDeleting) {
+          // Borrando caracteres
+          heroH1.textContent = textToType.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          // Escribiendo caracteres
+          heroH1.textContent = textToType.substring(0, charIndex + 1);
+          charIndex++;
+        }
 
-      // Definir la velocidad base
-      let typeSpeed = isDeleting ? 100 : 100;
+        // Definir la velocidad base
+        let typeSpeed = isDeleting ? 100 : 100;
 
-      // Comprobar si ha terminado de escribir la frase
-      if (!isDeleting && charIndex === textToType.length) {
-        // Pausa larga cuando termina de escribir
-        typeSpeed = 3000;
-        isDeleting = true;
-      } 
-      // Comprobar si ha terminado de borrar
-      else if (isDeleting && charIndex === 0) {
-        // Pausa corta antes de volver a empezar
-        isDeleting = false;
-        typeSpeed = 800;
-      }
+        // Comprobar si ha terminado de escribir la frase
+        if (!isDeleting && charIndex === textToType.length) {
+          // Pausa larga cuando termina de escribir
+          typeSpeed = 3000;
+          isDeleting = true;
+        } 
+        // Comprobar si ha terminado de borrar
+        else if (isDeleting && charIndex === 0) {
+          // Pausa corta antes de volver a empezar
+          isDeleting = false;
+          typeSpeed = 800;
+        }
 
-      setTimeout(typeWriter, typeSpeed);
+        setTimeout(typeWriter, typeSpeed);
+      };
+
+      // Comenzar animación text H1
+      setTimeout(typeWriter, 500);
+      
+      // Mostrar el subtitulo deslizando desde abajo
+      setTimeout(() => {
+        const glitchWrapper = document.querySelector('.glitch-wrapper');
+        if (glitchWrapper) glitchWrapper.classList.add('show');
+      }, 500); 
     };
-
-    // Comenzar animación con un pequeño retraso
-    setTimeout(typeWriter, 1000);
   }
 
   // --- Scroll Suave Manual para el botón de bajar ---
@@ -298,6 +308,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const terminalInputLine = document.getElementById('terminal-input-line');
   const terminalInput = document.getElementById('terminal-input');
   const terminalBody = document.getElementById('terminal-body');
+
+  // Bloquear scroll hasta que cargue la consola
+  document.body.classList.add('no-scroll');
 
   if (terminalOutput && terminalInput && terminalBody) {
 
@@ -348,6 +361,18 @@ document.addEventListener("DOMContentLoaded", () => {
         terminalInputLine.style.display = 'flex';
         terminalInput.focus();
         terminalBody.scrollTop = terminalBody.scrollHeight;
+        
+        // Mover terminal a la derecha y expandir texto
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) heroContent.classList.remove('booting');
+
+        // Disparar la animación de texto del Hero al terminar la terminal
+        startHeroTyping();
+
+        // Desbloquear scroll y mostrar flecha
+        document.body.classList.remove('no-scroll');
+        const scrollArrow = document.querySelector('.scroll-down-icon');
+        if (scrollArrow) scrollArrow.classList.add('show');
       }
     };
 
@@ -365,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const commands = {
       about: () => {
         addLine('');
-        addLine("Full Stack Developer from Argentina. Currently 4th year Bachelor's Degree in Systems student at UADER. Passionate about building modern web apps");
+        addLine("<span class='cyan'>Full Stack Developer from Argentina. Currently 4th year Bachelor's Degree in Systems student at UADER. Passionate about building modern web apps</span>");
         addLine('');
       },
       skills: () => {
@@ -378,8 +403,8 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       contact: () => {
         addLine('');
-        addLine('  <span class="cmd">Email:</span>    <span class="dim">alexfalvez001@gmail.com</span>');
-        addLine('  <span class="cmd">Phone:</span>    <span class="dim">+54 9 3442 66-8413</span>');
+        addLine('  <span class="cyan">Email:   alexfalvez001@gmail.com</span>');
+        addLine('  <span class="cyan">Phone:   +54 9 3442 66-8413</span>');
         addLine('');
       },
       help: () => {
@@ -409,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (value === '') return;
 
         if (commands[value]) {
-          commands[value]();
+          setTimeout(() => commands[value](), 300);
         } else {
           addLine(`<span class="pink">  Command not found: '${value}'. Type 'help' for available commands.</span>`);
         }

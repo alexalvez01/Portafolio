@@ -44,6 +44,14 @@ h2{
 .glitch-wrapper {
   margin-top: 10px;
   position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.glitch-wrapper.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .glitch-text {
@@ -100,12 +108,38 @@ h2{
   z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 60px;
   width: 100%;
   max-width: 1400px;
   padding: 0 40px 0 80px;
   box-sizing: border-box;
+  transition: padding 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+              gap 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hero-content.booting {
+  gap: 0px;
+  padding: 0 60px;
+}
+
+/* Bloquear scroll durante la carga de la consola */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* Flechita de scroll oculta al inicio */
+.scroll-down-icon {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  pointer-events: none;
+}
+
+.scroll-down-icon.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .presentation {
@@ -117,6 +151,21 @@ h2{
   text-align: left;
   flex: 1;
   min-width: 480px;
+  max-width: 1000px;
+  max-height: 1500px;
+  opacity: 1;
+  overflow: hidden;
+  transition: all 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hero-content.booting .presentation {
+  flex: 0;
+  min-width: 0;
+  max-width: 0;
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .presentation h1 {
@@ -170,6 +219,21 @@ h2{
   line-height: 1.7;
   text-align: left;
   background: #0c0c0c;
+}
+
+.terminal-line {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .terminal-body::-webkit-scrollbar {
@@ -950,6 +1014,8 @@ h2{
 
     .presentation {
         text-align: center;
+        min-width: 0;
+        width: 100%;
     }
 
     .terminal {
