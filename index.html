@@ -6,12 +6,13 @@
     <title>Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="images/portfolio.webp" type="image/x-icon" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@v10/font/simple-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@12/font/simple-icons.min.css">
+  
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <script src="main.js"></script>
@@ -61,7 +62,7 @@
                   <i class="fa-brands fa-instagram"></i>
                 </a>
               </div>
-              <a href="mailto:alexfalvez001@gmail.com" class="contact-btn">Contact Me</a>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=alexfalvez001@gmail.com" class="contact-btn" target="_blank" rel="noopener noreferrer">Contact Me</a>
             </div>
           </div>
         </aside>
@@ -87,24 +88,75 @@
                   </div>
                 </div>
               </div>
+              
+              <div class="about-skills">
+                <h3>SOFT SKILLS & INTERESTS</h3>
+                <div class="skills-container">
+                  <span class="skill-pill">TEAMWORK</span>
+                  <span class="skill-pill">COMMUNICATION</span>
+                  <span class="skill-pill">AGILE METHODOLOGIES</span>
+                  <span class="skill-pill">PROACTIVITY</span>
+                  <span class="skill-pill">ADAPTABILITY</span>
+                </div>
+              </div>
+
+              <div class="download-cv-container">
+                <a href="./docs/Alex_Alvez_CV.pdf" download="Alex_Alvez_CV.pdf" class="download-cv-btn" target="_blank" title="Download Resume">
+                  <i class="fa-solid fa-download"></i> DOWNLOAD CV
+                </a>
+              </div>
             </div>
           </section>
 
           <section class="box tech-stack">
             <h2>TECH STACK</h2>
-            <div class="language-container">
-              <i class="fa-brands fa-html5 language" title="HTML"></i>
-              <i class="fa-brands fa-css3-alt language" title="CSS"></i>
-              <i class="fa-brands fa-js language" title="JavaScript"></i>
-              <i class="si si-typescript language" title="TypeScript"></i>
-              <i class="fa-brands fa-python language" title="Python"></i>
-              <i class="fa-brands fa-react language" title="React"></i>
-              <i class="si si-tailwindcss language" title="Tailwind CSS"></i>
-              <i class="si si-nodedotjs language" title="Node.js"></i>
-              <i class="si si-express language" title="Express.js"></i>
-              <i class="si si-nestjs language" title="NestJS"></i>
-              <i class="si si-postgresql language" title="PostgreSQL"></i>
-              <i class="fa-brands fa-github language" title="GitHub"></i>
+            <div class="tech-accordion">
+              <div class="tech-category">
+                <div class="tech-category-header">FRONT <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-content">
+                  <i class="fa-brands fa-html5 tech-icon" title="HTML"></i>
+                  <i class="fa-brands fa-css3-alt tech-icon" title="CSS"></i>
+                  <i class="fa-brands fa-js tech-icon" title="JavaScript"></i>
+                  <i class="si si-typescript tech-icon" title="TypeScript"></i>
+                </div>
+              </div>
+
+              <div class="tech-category">
+                <div class="tech-category-header">BACK <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-content">
+                  <i class="fa-brands fa-python tech-icon" title="Python"></i>
+                  <i class="si si-nodedotjs tech-icon" title="Node.js"></i>
+                  <i class="si si-postgresql tech-icon" title="PostgreSQL"></i>
+                </div>
+              </div>
+
+              <div class="tech-category">
+                <div class="tech-category-header">FRAMEWORKS <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-content">
+                  <i class="fa-brands fa-react tech-icon" title="React"></i>
+                  <i class="si si-express tech-icon" title="Express.js"></i>
+                  <i class="si si-nestjs tech-icon" title="NestJS"></i>
+                  <i class="si si-tailwindcss tech-icon" title="Tailwind CSS"></i>
+                </div>
+              </div>
+              
+              <div class="tech-category">
+                <div class="tech-category-header">IA TOOLS <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-content">
+                  <i class="si si-openai tech-icon" title="Codex"></i>
+                  <i class="si si-anthropic tech-icon" title="Claude"></i>
+                  <i class="si si-googlegemini tech-icon" title="Gemini"></i>
+                </div>
+              </div>
+
+              <div class="tech-category">
+                <div class="tech-category-header">TOOLS <i class="fa-solid fa-chevron-down"></i></div>
+                <div class="tech-category-content">
+                  <i class="fa-brands fa-github tech-icon" title="GitHub"></i>
+                  <i class="fa-brands fa-docker tech-icon" title="Docker"></i>
+                  <i class="si si-postman tech-icon" title="Postman"></i>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -115,14 +167,18 @@
                 <img src="./images/TaskApp.webp" class="project-img" alt="Task Management App screenshot" title="Task Management App" />
                 <div class="project-overlay">
                   <h3>Task Management App</h3>
-                  <p>React · Node.js · CSS · PostgreSQL · Docker</p>
+                  <p class="project-desc">Gestor de tareas Full Stack con autenticación, CRUD completo, API REST y UI dinámica en modo oscuro.</p>
+                  <br>
+                  <p class="project-tech">React · Express · CSS · PostgreSQL · Docker</p>
                 </div>
               </article>
               <article class="project project1 ecommerce slide-from-left">
                 <img src="./images/E-commerce.webp" class="project-img" alt="Amargo y Dulce screenshot" title="Amargo y Dulce" />
                 <div class="project-overlay">
                   <h3>Amargo y Dulce</h3>
-                  <p>React · Express · Tailwind CSS · PostgreSQL · Neon · MercadoPago · Google</p>
+                  <p class="project-desc">E-commerce completo con integración de Mercado Pago y Google, carrito de compras, seguimiento de envíos y panel de administrador.</p>
+                  <br>
+                  <p class="project-tech">React · Express · Tailwind CSS · PostgreSQL · Neon · MercadoPago · Google</p>
                 </div>
               </article>
             </div>
