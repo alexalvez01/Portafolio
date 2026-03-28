@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     },
-    { threshold: 0.2 } // Un poco más sensible para pantallas pequeñas
+    { threshold: 0.3 } // Un poco más sensible para pantallas pequeñas
   );
 
   const profileCard = document.querySelector(".profile-card");
@@ -322,14 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
       terminalBody.scrollTop = terminalBody.scrollHeight;
     };
 
-    // Función para scroll suave con margen superior
-    const smoothScrollTo = (selector) => {
-      const el = document.querySelector(selector);
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 40;
-        window.scrollTo({top, behavior: 'smooth'});
-      }
-    };
+
 
     // Líneas de la secuencia de arranque
     const bootSequence = [
@@ -369,10 +362,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // Disparar la animación de texto del Hero al terminar la terminal
         startHeroTyping();
 
-        // Desbloquear scroll y mostrar flecha
+        // Desbloquear scroll y mostrar flecha + nav
         document.body.classList.remove('no-scroll');
         const scrollArrow = document.querySelector('.scroll-down-icon');
         if (scrollArrow) scrollArrow.classList.add('show');
+        const iconNav = document.getElementById('icon-nav');
+        if (iconNav) iconNav.classList.add('show');
       }
     };
 
@@ -394,12 +389,21 @@ document.addEventListener("DOMContentLoaded", () => {
         addLine('');
       },
       skills: () => {
-        addLine('<span class="cyan">→ Navigating to Tech Stack...</span>');
-        setTimeout(() => smoothScrollTo('.tech-stack'), 300);
+        addLine('');
+        addLine('  <span class="cyan">Front:</span>      <span class="cmd">HTML · CSS · JavaScript · TypeScript</span>');
+        addLine('  <span class="cyan">Back:</span>       <span class="cmd">Python · Node.js · PostgreSQL</span>');
+        addLine('  <span class="cyan">Frameworks:</span> <span class="cmd">React · Express · NestJS · Tailwind</span>');
+        addLine('  <span class="cyan">IA Tools:</span>   <span class="cmd">Codex · Claude · Gemini</span>');
+        addLine('  <span class="cyan">Tools:</span>      <span class="cmd">GitHub · Docker · Postman</span>');
+        addLine('');
       },
       projects: () => {
-        addLine('<span class="cyan">→ Navigating to Projects...</span>');
-        setTimeout(() => smoothScrollTo('.project-section'), 300);
+        addLine('');
+        addLine('  <span class="cyan">1.</span> <span class="cmd">Task Management App</span>');
+        addLine('  <span class="cyan">2.</span> <span class="cmd">Amargo y Dulce (E-commerce)</span>');
+        addLine('');
+        addLine('  <span class="yellow">↓ Scroll down to see more</span>');
+        addLine('');
       },
       contact: () => {
         addLine('');
@@ -441,5 +445,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
 
+  // --- Scroll Spy para el Nav ---
+  const navLinks = document.querySelectorAll('.nav-icon');
+  const sections = document.querySelectorAll('#hero, #about-section, #tech-section, #projects-section');
+
+  if (navLinks.length && sections.length) {
+    const setActive = (id) => {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + id) {
+          link.classList.add('active');
+        }
+      });
+    };
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActive(entry.target.id);
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+
+    sections.forEach(section => spyObserver.observe(section));
+  }
+});
