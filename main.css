@@ -1,5 +1,6 @@
 *{
     font-family: "Fira Code", monospace;
+    box-sizing: border-box;
 }
 html {
     scroll-behavior: smooth;
@@ -244,7 +245,7 @@ body.no-scroll {
   white-space: nowrap;
 }
 
-/* --- Interactive Terminal --- */
+/* --- Terminal interactiva --- */
 .terminal {
   width: 620px;
   max-width: 100%;
@@ -376,7 +377,7 @@ body.no-scroll {
   caret-color: #e11d48;
 }
 
-/* --- Scroll Down Arrow --- */
+/* --- Flecha de scroll --- */
 .scroll-down-icon {
   position: absolute;
   bottom: 40px; 
@@ -898,7 +899,7 @@ body.no-scroll {
     max-width: 100%;
     position: relative;
     overflow: hidden;
-    user-select: none; /* Previene la selección de texto */
+    user-select: none; 
     -webkit-user-select: none; 
     /* Configuración para el borde animado*/
     border: 2px solid transparent; 
@@ -932,7 +933,7 @@ body.no-scroll {
 }
 
 .project:hover img {
-    transform: scale(1.05); /* Adds a subtle zoom effect */
+    transform: scale(1.05); /* Efecto zoom */
 }
 
 
@@ -991,7 +992,7 @@ body.no-scroll {
 .project-desc {
   font-size: 0.9em;
   color: #d4d4d8;
-  margin-bottom: auto !important; /* pushes tech stack down */
+  margin-bottom: auto !important; 
 }
 
 .project-tech {
@@ -1007,12 +1008,8 @@ body.no-scroll {
     *{
         font-size: 1em;
     }
-    .video{
-        width: 100%;
-        height: 100vh;
-        z-index: -1;
-        object-fit: cover;
-    
+    .hero{
+        min-height: 100vh;
     }
     .animated-text{
         height: 50px;
@@ -1035,12 +1032,7 @@ body.no-scroll {
         }
     
     }
-    .box:nth-child(2){
-        height: 200px;
-    }
-    .tech-accordion{
-        font-size: .8em;
-    }
+
     .container-projects{
         padding-bottom: 50px;
     }
@@ -1048,13 +1040,20 @@ body.no-scroll {
         width: 450px;
     }
 }
+
 @media screen and (max-width: 1000px){
     *{
         font-size: 1em;
     }
     .main-layout {
         flex-direction: column;
-        padding: 0 20px;
+        padding: 60px 20px 40px 20px;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    .main-layout * {
+        box-sizing: border-box;
     }
     
     .sidebar {
@@ -1074,9 +1073,16 @@ body.no-scroll {
         grid-template-columns: 1fr;
     }
 
+    .hero{
+        min-height: 100vh;
+    }
     .hero-content {
         flex-direction: column;
         gap: 30px;
+        padding: 0 20px;
+    }
+
+    .hero-content.booting {
         padding: 0 20px;
     }
 
@@ -1086,10 +1092,101 @@ body.no-scroll {
         width: 100%;
     }
 
+    .presentation h1 {
+        white-space: normal;
+        font-size: clamp(1.4rem, 6vw, 2.4rem);
+    }
+
     .terminal {
         width: 100%;
-        max-width: 450px;
+        max-width: 100%;
+    }
+
+    /* --- Content area responsive --- */
+    .content-area {
+        gap: 80px;
+    }
+
+    /* --- About section responsive --- */
+    .about-section {
+        padding: 20px 20px 40px 20px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .about-content p {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    .skills-container {
+        justify-content: center;
+    }
+
+    /* --- Tech Stack responsive --- */
+    .tech-stack {
+        padding: 20px 20px 40px 20px;
+    }
+
+    /* --- Projects responsive --- */
+    .project-section {
+        padding: 20px 20px 40px 20px;
     }
 }
 
+@media screen and (max-width: 600px) {
+    .hero {
+        min-height: 100vh;
+        padding: 60px 0 30px 0;
+    }
 
+    .hero-content {
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .hero-content.booting {
+        padding: 0 15px;
+    }
+
+    .presentation h1 {
+        font-size: clamp(1.2rem, 5vw, 1.8rem);
+    }
+
+    .glitch-text {
+        font-size: clamp(1rem, 4vw, 1.4rem);
+    }
+
+    .terminal {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .terminal-body {
+        min-height: 200px;
+        max-height: 280px;
+        font-size: 0.75rem;
+        padding: 12px;
+    }
+
+    .content-area {
+        gap: 60px;
+    }
+
+    .about-section,
+    .tech-stack,
+    .project-section {
+        padding: 15px 15px 30px 15px;
+        border-radius: 12px;
+    }
+
+    .icon-nav {
+        padding: 8px 16px;
+        gap: 4px;
+    }
+
+    .nav-icon {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+}
