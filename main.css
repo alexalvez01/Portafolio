@@ -891,6 +891,12 @@ body.no-scroll {
     initial-value: 0deg;
 }
 
+.project-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .project {
     display: flex;
     flex-direction: column;
