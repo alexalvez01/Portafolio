@@ -30,20 +30,23 @@ document.addEventListener("DOMContentLoaded", () => {
     entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          
+          entry.target.classList.add("show");
+
           // Si la sección tiene un h2, disparamos el efecto de tipeo (excepto en la profile card)
-          const h2 = entry.target.querySelector('h2');
-          if (h2 && !h2.dataset.typingStarted && !entry.target.classList.contains('profile-card')) {
+          const h2 = entry.target.querySelector("h2");
+          if (h2 && !h2.dataset.typingStarted && !entry.target.classList.contains("profile-card")) {
             typeWriterOnce(h2, 150);
           }
         } else {
-          entry.target.classList.remove('show');
+          entry.target.classList.remove("show");
         }
       });
     },
-    { threshold: 0.3 } // Un poco más sensible para pantallas pequeñas
+    { threshold: 0.2 } // Disparar antes para que la línea se mueva al entrar
   );
+
+
+
 
   const profileCard = document.querySelector(".profile-card");
   if (profileCard) sectionObserver.observe(profileCard);
@@ -80,129 +83,37 @@ document.addEventListener("DOMContentLoaded", () => {
     .forEach(el => iconObserver.observe(el));
 
   const hero = document.querySelector(".hero");
-  const canvas = document.getElementById("spotlight-canvas");
+  const gridContainer = document.getElementById("grid-container");
 
-  if (hero && canvas) {
-    const ctx = canvas.getContext("2d");
-    
-    // --- Efecto Magnetic Particles (repulsión y retorno suave) ---
-    let particlesArray = [];
-    const mouse = { x: null, y: null, radius: 150 };
-
+  if (hero && gridContainer) {
+    // Seguir al ratón para crear la máscara de foco de luz
     hero.addEventListener("mousemove", (e) => {
       const rect = hero.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    });
-
-    hero.addEventListener("mouseleave", () => {
-      mouse.x = null;
-      mouse.y = null;
-    });
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.dx = (Math.random() - 0.5) * 0.6; // Velocidad en X
-        this.dy = (Math.random() - 0.5) * 0.6; // Velocidad en Y
-        
-        // Color: Escala de grises minimalista (platas y humos)
-        const colors = ['#a1a1aa', '#71717a', '#52525b', '#3f3f46'];
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-      }
-
-      draw() {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      update() {
-        // Rebote en bordes
-        if (this.x + this.size > canvas.width || this.x - this.size < 0) {
-          this.dx = -this.dx;
-        }
-        if (this.y + this.size > canvas.height || this.y - this.size < 0) {
-          this.dy = -this.dy;
-        }
-
-        this.x += this.dx;
-        this.y += this.dy;
-      }
-    }
-
-    const init = () => {
-      particlesArray = [];
-      // Cantidad de partículas basada en el tamaño del canvas (densidad aumentada)
-      let numberOfParticles = (canvas.width * canvas.height) / 6000;
-      // Límite aumentado a 300 para mantener la fluidez
-      if (numberOfParticles > 300) numberOfParticles = 300;
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
       
-      for (let i = 0; i < numberOfParticles; i++) {
-        particlesArray.push(new Particle());
-      }
+      gridContainer.style.setProperty("--mouse-x", `${mouseX}px`);
+      gridContainer.style.setProperty("--mouse-y", `${mouseY}px`);
+    });
+
+    // Animar el movimiento de la cuadrícula de forma infinita
+    let offsetX = 0;
+    let offsetY = 0;
+    const speedX = 0.4;
+    const speedY = 0.4;
+
+    const animateGrid = () => {
+      // Reiniciar el desplazamiento a 0 cuando alcanza los 40px (tamaño de la cuadrícula)
+      offsetX = (offsetX + speedX) % 40;
+      offsetY = (offsetY + speedY) % 40;
+      
+      gridContainer.style.setProperty("--grid-offset-x", `${offsetX}px`);
+      gridContainer.style.setProperty("--grid-offset-y", `${offsetY}px`);
+      
+      requestAnimationFrame(animateGrid);
     };
 
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particlesArray.length; i++) {
-        particlesArray[i].draw();
-        particlesArray[i].update();
-
-        // Efecto red de partículas (Constellation) - Conexión entre ellas
-        for (let j = i; j < particlesArray.length; j++) {
-          let dx = particlesArray[i].x - particlesArray[j].x;
-          let dy = particlesArray[i].y - particlesArray[j].y;
-          let distanceSq = dx * dx + dy * dy;
-          
-          if (distanceSq < 10000) { // Si están a menos de 100px
-            let opacity = 1 - (Math.sqrt(distanceSq) / 100);
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(161, 161, 170, ${opacity * 0.5})`;
-            ctx.lineWidth = 1;
-            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-            ctx.stroke();
-            ctx.closePath();
-          }
-        }
-
-        // Conexión dinámica extra con el cursor (el mouse "teje" la red)
-        if (mouse.x !== null && mouse.y !== null) {
-           let dxCursor = particlesArray[i].x - mouse.x;
-           let dyCursor = particlesArray[i].y - mouse.y;
-           let distanceCursorSq = dxCursor * dxCursor + dyCursor * dyCursor;
-           
-           if (distanceCursorSq < 22500) { // a menos de 150px del mouse
-              let opacity = 1 - (Math.sqrt(distanceCursorSq) / 150);
-              ctx.beginPath();
-              // Línea ligeramente más opaca para resaltar la interacción
-              ctx.strokeStyle = `rgba(161, 161, 170, ${opacity * 0.7})`;
-              ctx.lineWidth = 1.2;
-              ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-              ctx.lineTo(mouse.x, mouse.y);
-              ctx.stroke();
-              ctx.closePath();
-           }
-        }
-      }
-      requestAnimationFrame(animate);
-    };
-
-    const resizeCanvas = () => {
-      canvas.width = hero.offsetWidth;
-      canvas.height = hero.offsetHeight;
-      init(); // Re-inicializar constelación
-
-    };
-
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-    animate();
+    animateGrid();
   }
 
   // --- Animación de Tipeo para el Hero (H1) ---
@@ -470,4 +381,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sections.forEach(section => spyObserver.observe(section));
   }
+
+
 });
