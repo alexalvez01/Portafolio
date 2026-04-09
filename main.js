@@ -312,6 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addLine('');
         addLine('  <span class="cyan">1.</span> <span class="cmd">Task Management App</span>');
         addLine('  <span class="cyan">2.</span> <span class="cmd">Amargo y Dulce (E-commerce)</span>');
+        addLine('  <span class="cyan">3.</span> <span class="cmd">Districom Landing Page</span>');
         addLine('');
         addLine('  <span class="yellow">↓ Scroll down to see more</span>');
         addLine('');
